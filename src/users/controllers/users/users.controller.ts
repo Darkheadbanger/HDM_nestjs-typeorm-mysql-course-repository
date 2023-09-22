@@ -1,8 +1,11 @@
 // Import crud decorators
 import { Controller, Get, Post, Delete, Put } from '@nestjs/common';
+// Imort injectrepository decorator
 
 @Controller('users')
 export class UsersController {
+  // Comment interagir avec la base de données, il faut injecter le repository de la base de données dans le controller.
+
   // Define routes here for the users module
   @Get()
   getUsers() {
