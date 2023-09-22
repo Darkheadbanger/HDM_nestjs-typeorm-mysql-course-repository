@@ -1,9 +1,12 @@
-// Import crud decorators
-import { Controller, Get, Post, Delete, Put } from '@nestjs/common';
-// Imort injectrepository decorator
+import { Controller, Get, Post, Delete, Put, Body } from '@nestjs/common';
+import { CreateUserDto } from 'src/users/dtos/createUser.dto';
+import { UsersService } from './users.service';
 
+// Imort injectrepository decorator
 @Controller('users')
 export class UsersController {
+  // Inject the UsersService into the controller
+  constructor(private userService: UsersService) {}
   // Comment interagir avec la base de données, il faut injecter le repository de la base de données dans le controller.
 
   // Define routes here for the users module
@@ -13,8 +16,8 @@ export class UsersController {
   }
 
   @Post()
-  createUser() {
-    return 'Create a user';
+  createUser(@Body() createUserDto: CreateUserDto) {
+    this.userService.createUser(createUserDto);
   }
 
   @Put()
