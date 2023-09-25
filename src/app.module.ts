@@ -1,9 +1,10 @@
-import { Module, OnModuleInit } from '@nestjs/common';
+// import { Module, OnModuleInit } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './typeorm/entities/User';
-import { DataSource } from 'typeorm';
+// import { DataSource } from 'typeorm';
 import { UsersModule } from './users/users.module';
 // Give me the code to use DataSource
 
@@ -26,14 +27,14 @@ import { UsersModule } from './users/users.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements OnModuleInit {
-  constructor(private readonly dataSource: DataSource) {}
-  async onModuleInit() {
-    try {
-      await this.dataSource.query('SELECT 1');
-      console.log('Database connection is successful.');
-    } catch (error) {
-      console.error('Database connection is failed.');
-    }
-  }
-}
+export class AppModule {}
+// export class AppModule implements OnModuleInit {
+//   constructor(private readonly dataSource: DataSource) {}
+//   async onModuleInit() {
+//     try {
+//       await this.dataSource.query('SELECT 1');
+//       console.log('Database connection is successful.');
+//     } catch (error) {
+//       console.error('Database connection is failed.');
+//     }
+//   }

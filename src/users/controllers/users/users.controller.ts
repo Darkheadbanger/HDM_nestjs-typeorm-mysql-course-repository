@@ -1,5 +1,15 @@
-import { Controller, Get, Post, Delete, Put, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  // Delete,
+  Put,
+  Body,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dtos/createUser.dto';
+import { UpdateUserDto } from 'src/users/dtos/updateUser.dto';
 import { UsersService } from './users.service';
 
 // Imort injectrepository decorator
@@ -11,8 +21,10 @@ export class UsersController {
 
   // Define routes here for the users module
   @Get()
-  getUsers() {
-    return 'Get all users';
+  async getUsers() {
+    // Si on ne fait rien d'autres, on aura pas besoin de async et await car on ne fait que retourner la valeur de la fonction findUser() du service.
+    const users = await this.userService.findUser();
+    return users;
   }
 
   @Post()
@@ -20,13 +32,11 @@ export class UsersController {
     this.userService.createUser(createUserDto);
   }
 
-  @Put()
-  replaceUser() {
-    return 'Replace a user';
-  }
-
-  @Delete()
-  deleteUser() {
-    return 'Delete a user';
+  @Put(':id')
+  updateUserById(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    this.userService.updateUserById(id, updateUserDto);
   }
 }
