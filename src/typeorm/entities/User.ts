@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Profile } from './Profile';
 
 // @Entity is a decorator that marks a class as a type of entity.
 // The meaning of Entity is a table in the database.
@@ -19,4 +26,11 @@ export class User {
 
   @Column({ nullable: true }) // La raison que la propriété est nullable est que la propriété est facultative. Une stratégie pour que l'authentification puisse être facultative ou obligatoire.
   authStrategy: string;
+
+  @Column({ nullable: true })
+  profileId: number;
+
+  @OneToOne(() => Profile)
+  @JoinColumn({ name: 'profileId' })
+  profile: Profile;
 }

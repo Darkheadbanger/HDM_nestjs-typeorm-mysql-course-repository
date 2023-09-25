@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './typeorm/entities/User';
 // import { DataSource } from 'typeorm';
 import { UsersModule } from './users/users.module';
+import { Profile } from './typeorm/entities/Profile';
 // Give me the code to use DataSource
 
 @Module({
@@ -19,7 +20,7 @@ import { UsersModule } from './users/users.module';
       username: 'testuser',
       password: 'testuser',
       database: 'nestjs_mysql_tutorial',
-      entities: [User], // Il faut connecter la propriété entities à l'entité User du doissier src/typeorm/entities/User.ts pour que l'entité soit reconnue par le module TypeOrmModule.
+      entities: [User, Profile], // Il faut connecter la propriété entities à l'entité User du doissier src/typeorm/entities/User.ts pour que l'entité soit reconnue par le module TypeOrmModule.
       synchronize: true,
     }),
     UsersModule,

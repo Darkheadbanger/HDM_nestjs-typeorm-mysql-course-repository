@@ -2,7 +2,7 @@ import {
   Controller,
   Get,
   Post,
-  // Delete,
+  Delete,
   Put,
   Body,
   Param,
@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dtos/createUser.dto';
 import { UpdateUserDto } from 'src/users/dtos/updateUser.dto';
+import { CreateUserProfileDto } from 'src/users/dtos/createUserProfiles.dto';
 import { UsersService } from './users.service';
 
 // Imort injectrepository decorator
@@ -38,5 +39,20 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
   ) {
     this.userService.updateUserById(id, updateUserDto);
+  }
+
+  @Delete(':id')
+  async deleteUserById(@Param('id', ParseIntPipe) id: number) {
+    const userDeleted = await this.userService.deleteUserById(id);
+    return userDeleted;
+  }
+
+  // C'est ici que je veux one to one relationship
+  @Post(':id/profiles')
+  createUserProfile(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() createUserProfileDto: CreateUserProfileDto,
+  ) {
+    return this.userService.createUserProfile(id, createUserProfileDto);
   }
 }
