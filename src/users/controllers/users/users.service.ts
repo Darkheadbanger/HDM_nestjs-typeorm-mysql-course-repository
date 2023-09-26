@@ -20,7 +20,7 @@ export class UsersService {
 
   // Create the business logic here
   findUser() {
-    return this.userRepository.find({ relations: ['profile'] });
+    return this.userRepository.find({ relations: ['profile', 'posts'] });
   }
 
   createUser(userDetails: CreateUserParams) {
