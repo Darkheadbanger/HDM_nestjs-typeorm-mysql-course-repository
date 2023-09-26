@@ -6,6 +6,8 @@ import { UpdateUserParams } from 'src/utils/updateUser';
 import { CreateUserProfileParams } from 'src/utils/createUserProfile';
 import { Repository } from 'typeorm';
 import { Profile } from 'src/typeorm/entities/Profile';
+import { Post } from 'src/typeorm/entities/Post';
+import { CreateUserPostDto } from 'src/users/dtos/createUserPost.dto';
 
 @Injectable()
 export class UsersService {
@@ -13,11 +15,12 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Profile) private profileRepository: Repository<Profile>,
+    @InjectRepository(Post) private postRepository: Repository<Post>,
   ) {}
 
   // Create the business logic here
   findUser() {
-    return this.userRepository.find();
+    return this.userRepository.find({ relations: ['profile'] });
   }
 
   createUser(userDetails: CreateUserParams) {
@@ -57,5 +60,22 @@ export class UsersService {
     // user.profile = newProfile;
     user.profile = savedProfile;
     return this.userRepository.save(user);
+  }
+
+  async createUserPost(id: number, createUserPostDetails: CreateUserPostDto) {
+    const user: User = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new HttpException(
+        'User not found, can not create profile',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const newPost = this.postRepository.create({
+      ...createUserPostDetails,
+      user,
+    });
+    const savedPost = this.postRepository.save(newPost);
+    return savedPost;
   }
 }

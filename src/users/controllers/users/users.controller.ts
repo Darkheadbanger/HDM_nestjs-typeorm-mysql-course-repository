@@ -11,6 +11,7 @@ import {
 import { CreateUserDto } from 'src/users/dtos/createUser.dto';
 import { UpdateUserDto } from 'src/users/dtos/updateUser.dto';
 import { CreateUserProfileDto } from 'src/users/dtos/createUserProfiles.dto';
+import { CreateUserPostDto } from 'src/users/dtos/createUserPost.dto';
 import { UsersService } from './users.service';
 
 // Imort injectrepository decorator
@@ -54,5 +55,13 @@ export class UsersController {
     @Body() createUserProfileDto: CreateUserProfileDto,
   ) {
     return this.userService.createUserProfile(id, createUserProfileDto);
+  }
+
+  @Post(':id/posts')
+  createUserPost(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() createUserPost: CreateUserPostDto,
+  ) {
+    return this.userService.createUserPost(id, createUserPost);
   }
 }

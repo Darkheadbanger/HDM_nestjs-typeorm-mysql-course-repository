@@ -2,10 +2,12 @@ import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Profile } from './Profile';
+import { Post } from './Post';
 
 // @Entity is a decorator that marks a class as a type of entity.
 // The meaning of Entity is a table in the database.
@@ -33,4 +35,7 @@ export class User {
   @OneToOne(() => Profile)
   @JoinColumn({ name: 'profileId' })
   profile: Profile;
+
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[];
 }
